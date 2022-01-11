@@ -1,0 +1,20 @@
+---
+- name: JDK Open JDK
+  apt:
+    name: openjdk-11-jdk
+    state: present
+  become: yes
+
+- name: Create Directory
+  file:
+    path: /applications
+    state: directory
+    owner: sandrine
+    group: sandrine
+    mode: 0700
+  become: yes
+
+- name: Copy artifact
+  copy:
+    src: bonjour2.war
+    dest: /applications/wildfly/wildfly-25.0.1.Final/
