@@ -1,5 +1,5 @@
 ---
-- name: JDK Open JDK
+- name: install JDK
   apt:
     name: openjdk-11-jdk
     state: present
@@ -7,14 +7,25 @@
 
 - name: Create Directory
   file:
-    path: /applications
+    path: /applications/wildfly
     state: directory
     owner: sandrine
     group: sandrine
     mode: 0700
   become: yes
 
+- name: download wildfly
+  get_url:
+    url: https://github.com/wildfly/wildfly/releases/download/25.0.1.Final/wildfly-25.0.1.Final.tar.gz
+    dest: /applications/wildfly
+
+- name: extract wildfly archive
+  unarchive:
+    src: /applications/wildfly/wildfly-25.0.1.Final.tar.gz
+    dest: /applications/wildfly
+    remote_src: yes
+
 - name: Copy artifact
   copy:
     src: bonjour2.war
-    dest: /applications/wildfly/wildfly-25.0.1.Final/
+    dest: /applications/wildfly
